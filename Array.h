@@ -30,6 +30,8 @@ public:
     void SetSize(int size, int grow = 1);
     bool IsEmpty();
     void RemoveAll();
+    const T GetAt(int index);
+    void SetAt(int index, T elem);
 
     ~Array();
 };

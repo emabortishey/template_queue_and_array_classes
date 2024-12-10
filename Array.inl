@@ -75,6 +75,50 @@ void Array<T>::RemoveAll()
 }
 
 template<class T>
+const T Array<T>::GetAt(int index)
+{
+    if (index < GetSize())
+    {
+        int size_buff = 0;
+        Node<T>* buff = head;
+
+        while (size_buff != index)
+        {
+            size_buff++;
+            buff = buff->next;
+        }
+
+        return buff->data;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+template<class T>
+void Array<T>::SetAt(int index, T elem)
+{
+    if (index < GetSize())
+    {
+        int size_buff = 0;
+        Node<T>* buff = head;
+
+        while (size_buff != index)
+        {
+            size_buff++;
+            buff = buff->next;
+        }
+
+        buff->data = elem;
+    }
+    else
+    {
+        return;
+    }
+}
+
+template<class T>
 void Array<T>::removeLast()
 {
     if (head == nullptr)
