@@ -11,7 +11,7 @@ public:
     Node* next;
     Node* prev;
 
-    Node() : full(0), next(nullptr), prev(nullptr) {}
+    Node() : data(0), full(0), next(nullptr), prev(nullptr) {}
     Node(T data) : data(data), full(1), next(nullptr), prev(nullptr) {}
 };
 
@@ -36,6 +36,7 @@ public:
     const T GetAt(int index);
     void SetAt(int index, T elem);
     int GetUpperBound();
+    void FreeExtra();
 
     ~Array();
 };

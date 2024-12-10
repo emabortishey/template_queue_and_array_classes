@@ -136,14 +136,29 @@ template<class T>
 int Array<T>::GetUpperBound()
 {
     Node<T>* buff = head;
-    int buff_indx = 0;
+    int buff_indx = -1;
 
     while (buff->full != 0)
     {
         buff_indx++;
+        buff = buff->next;
     }
 
     return buff_indx;
+}
+
+template<class T>
+void Array<T>::FreeExtra()
+{
+    int UpperBound = GetUpperBound();
+    Node<T>* buff = head;
+
+    for (int i = 0; i < UpperBound; i++)
+    {
+        buff = buff->next;
+    }
+
+    buff->next = nullptr; 
 }
 
 template<class T>

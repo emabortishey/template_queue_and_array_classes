@@ -10,9 +10,11 @@ int main()
 		obj.append(i);
 	}
 
-	cout << obj.GetSize();
-
 	obj.SetSize(8);
 
-	cout << obj.GetUpperBound();
+	obj.FreeExtra();
+
+	obj.print();
+
+
 }
