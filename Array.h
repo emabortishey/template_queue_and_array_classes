@@ -7,10 +7,12 @@ template<class T>
 class Node {
 public:
     T data;
+    int full;
     Node* next;
     Node* prev;
 
-    Node(T data) : data(data), next(nullptr), prev(nullptr) {}
+    Node() : full(0), next(nullptr), prev(nullptr) {}
+    Node(T data) : data(data), full(1), next(nullptr), prev(nullptr) {}
 };
 
 template<class T>
@@ -22,6 +24,7 @@ private:
 public:
     Array() : head(nullptr), tail(nullptr) {}
 
+    void append();
     void append(T value);
     void removeLast();
     void print() const;
@@ -32,6 +35,7 @@ public:
     void RemoveAll();
     const T GetAt(int index);
     void SetAt(int index, T elem);
+    int GetUpperBound();
 
     ~Array();
 };

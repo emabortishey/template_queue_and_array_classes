@@ -1,6 +1,23 @@
 #pragma once
 
 template<class T>
+void Array<T>::append()
+{
+    Node<T>* newNode = new Node<T>;
+
+    if (tail == nullptr)
+    {
+        head = tail = newNode;
+    }
+    else
+    {
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
+    }
+}
+
+template<class T>
 void Array<T>::append(T value)
 {
     Node<T>* newNode = new Node<T>(value);
@@ -43,7 +60,7 @@ void Array<T>::SetSize(int size, int grow)
         {
             for (int j = 0; j < grow; j++)
             {
-                append(int()); 
+                append(); 
             }
         }
     }
@@ -77,7 +94,7 @@ void Array<T>::RemoveAll()
 template<class T>
 const T Array<T>::GetAt(int index)
 {
-    if (index < GetSize())
+    if (index < GetSize() && index >= 0)
     {
         int size_buff = 0;
         Node<T>* buff = head;
@@ -99,7 +116,7 @@ const T Array<T>::GetAt(int index)
 template<class T>
 void Array<T>::SetAt(int index, T elem)
 {
-    if (index < GetSize())
+    if (index < GetSize() && index >= 0)
     {
         int size_buff = 0;
         Node<T>* buff = head;
@@ -111,11 +128,22 @@ void Array<T>::SetAt(int index, T elem)
         }
 
         buff->data = elem;
+        buff->full = 1;
     }
-    else
+}
+
+template<class T>
+int Array<T>::GetUpperBound()
+{
+    Node<T>* buff = head;
+    int buff_indx = 0;
+
+    while (buff->full != 0)
     {
-        return;
+        buff_indx++;
     }
+
+    return buff_indx;
 }
 
 template<class T>

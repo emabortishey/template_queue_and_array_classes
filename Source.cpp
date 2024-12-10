@@ -14,9 +14,5 @@ int main()
 
 	obj.SetSize(8);
 
-	cout << obj.GetSize();
-
-	cout << obj.IsEmpty();
-
-	obj.print();
+	cout << obj.GetUpperBound();
 }
