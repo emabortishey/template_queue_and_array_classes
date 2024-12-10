@@ -28,6 +28,8 @@ public:
     bool search(T value) const;
     int GetSize();
     void SetSize(int size, int grow = 1);
+    bool IsEmpty();
+    void RemoveAll();
 
     ~Array();
 };

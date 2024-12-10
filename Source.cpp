@@ -12,9 +12,11 @@ int main()
 
 	cout << obj.GetSize();
 
-	obj.SetSize(2);
+	obj.SetSize(8);
 
 	cout << obj.GetSize();
+
+	cout << obj.IsEmpty();
 
 	obj.print();
 }

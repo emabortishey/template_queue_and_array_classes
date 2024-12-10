@@ -63,6 +63,18 @@ void Array<T>::SetSize(int size, int grow)
 }
 
 template<class T>
+bool Array<T>::IsEmpty()
+{
+    return head == nullptr;
+}
+
+template<class T>
+void Array<T>::RemoveAll()
+{
+    head = tail = nullptr;
+}
+
+template<class T>
 void Array<T>::removeLast()
 {
     if (head == nullptr)
