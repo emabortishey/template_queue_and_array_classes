@@ -8,12 +8,14 @@ void Array<T>::append()
     if (tail == nullptr)
     {
         head = tail = newNode;
+        size = 1;
     }
     else
     {
         tail->next = newNode;
         newNode->prev = tail;
         tail = newNode;
+        size++;
     }
 }
 
@@ -25,33 +27,41 @@ void Array<T>::append(T value)
     if (tail == nullptr)
     {
         head = tail = newNode;
+        size = 1;
     }
     else
     {
         tail->next = newNode;
         newNode->prev = tail;
         tail = newNode;
+        size++;
+    }
+}
+
+template<class T>
+void Array<T>::Append(Array& obj)
+{
+    T buff;
+
+    for (int i = 0; i<obj.GetSize(); i++)
+    {
+        buff = obj[i]->data;
+        append(buff);
+        size++;
     }
 }
 
 template<class T>
 int Array<T>::GetSize()
 {
-    int size = 1;
-    Node<T>* buff = head;
-
-    while (buff->next != nullptr)
-    {
-        size++;
-        buff = buff->next;
-    }
-
     return size;
 }
 
 template<class T>
-void Array<T>::SetSize(int size, int grow)
+void Array<T>::SetSize(int size_P, int grow)
 {
+    size = size_P;
+
     if (size>GetSize())
     {
         int diff = size - GetSize();
@@ -109,7 +119,7 @@ const T Array<T>::GetAt(int index)
     }
     else
     {
-        return nullptr;
+        return T();
     }
 }
 
@@ -159,6 +169,41 @@ void Array<T>::FreeExtra()
     }
 
     buff->next = nullptr; 
+}
+
+template<class T>
+Node<T>* Array<T>::operator[](int indx)
+{
+    int size_buff = 0;
+    Node<T>* buff = head;
+
+    while (size_buff != indx)
+    {
+        size_buff++;
+        buff = buff->next;
+    }
+
+    return buff;
+}
+
+template<class T>
+Node<T>& Array<T>::Get_data()
+{
+    return head;
+}
+
+template<class T>
+void Array<T>::InsertAt(int indx, int value)
+{
+    Node<T>* newnode = new Node<T>;
+    newnode->prev = tail;
+    tail->next = newnode;
+    tail = newnode;
+
+    for (int i = indx; i < GetSize()-1; i++)
+    {
+        
+    }
 }
 
 template<class T>

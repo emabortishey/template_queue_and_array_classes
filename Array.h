@@ -20,12 +20,14 @@ class Array {
 private:
     Node<T>* head;
     Node<T>* tail;
+    int size;
 
 public:
     Array() : head(nullptr), tail(nullptr) {}
 
     void append();
     void append(T value);
+    void Append(Array& obj);
     void removeLast();
     void print() const;
     bool search(T value) const;
@@ -37,6 +39,9 @@ public:
     void SetAt(int index, T elem);
     int GetUpperBound();
     void FreeExtra();
+    Node<T>* operator[](int indx);
+    Node<T>& Get_data();
+    void InsertAt(int indx, int value);
 
     ~Array();
 };
