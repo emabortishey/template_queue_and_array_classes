@@ -19,9 +19,11 @@ int main()
 
 	obj.Append(obj2);
 
-	obj.print();
+	
 
-	obj.InsertAt(1, 1);
+	obj.InsertAt(4,666);
+
+	obj.print();
 
 	/*obj.SetSize(8);
 

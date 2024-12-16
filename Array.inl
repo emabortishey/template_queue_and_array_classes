@@ -45,7 +45,7 @@ void Array<T>::Append(Array& obj)
 
     for (int i = 0; i<obj.GetSize(); i++)
     {
-        buff = obj[i]->data;
+        buff = obj[i];
         append(buff);
         size++;
     }
@@ -172,7 +172,7 @@ void Array<T>::FreeExtra()
 }
 
 template<class T>
-Node<T>* Array<T>::operator[](int indx)
+T Array<T>::operator[](int indx)
 {
     int size_buff = 0;
     Node<T>* buff = head;
@@ -183,7 +183,7 @@ Node<T>* Array<T>::operator[](int indx)
         buff = buff->next;
     }
 
-    return buff;
+    return buff->data;
 }
 
 template<class T>
@@ -193,17 +193,32 @@ Node<T>& Array<T>::Get_data()
 }
 
 template<class T>
-void Array<T>::InsertAt(int indx, int value)
+void Array<T>::InsertAt(int indx, T value)
 {
     Node<T>* newnode = new Node<T>;
-    newnode->prev = tail;
     tail->next = newnode;
+    newnode->prev = tail;
     tail = newnode;
+    Node<T>* buff = head;
+    Node<T>* buff_indx = head;
+    T buff_value;
 
-    for (int i = indx; i < GetSize()-1; i++)
+    for (int i = 0; i < indx-1; i++)
     {
-        
+        buff = buff->next;
     }
+
+    buff_indx = buff;
+
+    for (int i = indx; i < GetSize() && buff->next!=nullptr; i++)
+    {
+        buff_value = buff->next->data;
+        buff->next->data = buff->data;
+        buff = buff->next;
+        buff->data = buff_value;
+    }
+
+    buff_indx->data = value;
 }
 
 template<class T>

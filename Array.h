@@ -39,9 +39,9 @@ public:
     void SetAt(int index, T elem);
     int GetUpperBound();
     void FreeExtra();
-    Node<T>* operator[](int indx);
+    T operator[](int indx);
     Node<T>& Get_data();
-    void InsertAt(int indx, int value);
+    void InsertAt(int indx, T value);
 
     ~Array();
 };
