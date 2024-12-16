@@ -42,6 +42,7 @@ public:
     T operator[](int indx);
     Node<T>& Get_data();
     void InsertAt(int indx, T value);
+    void DeleteAt(int indx);
 
     ~Array();
 };

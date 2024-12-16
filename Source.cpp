@@ -23,6 +23,8 @@ int main()
 
 	obj.InsertAt(4,666);
 
+	obj.DeleteAt(4);
+
 	obj.print();
 
 	/*obj.SetSize(8);

@@ -222,6 +222,24 @@ void Array<T>::InsertAt(int indx, T value)
 }
 
 template<class T>
+void Array<T>::DeleteAt(int indx)
+{
+    Node<T>* buff = head;
+    Node<T>* buff_indx = head;
+
+    for (int i = 0; i < indx - 1; i++)
+    {
+        buff = buff->next;
+    }
+
+    for (int i = indx; i < GetSize() && buff->next != nullptr; i++)
+    {
+        buff->data = buff->next->data;
+        buff = buff->next;
+    }
+}
+
+template<class T>
 void Array<T>::removeLast()
 {
     if (head == nullptr)
