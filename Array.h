@@ -7,12 +7,13 @@ template<class T>
 class Node {
 public:
     T data;
-    int full;
+    // атрибут означающий заполнен узел или нет
+    bool full;
     Node* next;
     Node* prev;
 
-    Node() : data(0), full(0), next(nullptr), prev(nullptr) {}
-    Node(T data) : data(data), full(1), next(nullptr), prev(nullptr) {}
+    Node() : data(0), full(false), next(nullptr), prev(nullptr) {}
+    explicit Node(T data_P) : data(data_P), full(true), next(nullptr), prev(nullptr) {}
 };
 
 template<class T>

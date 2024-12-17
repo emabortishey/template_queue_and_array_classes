@@ -1,9 +1,14 @@
 #pragma once
 
+// аппенд из ориг. двойных списков (не метод заданный в задании)   (методы с маленькой буквы - предусмотренные списками, а с большой - из задания, кроме оператора)
+// сам аппенд перегружен
+// 
+// тот что без оператора создает незполненную ячейку и в аргумент, обозначающий то, заполнена ячейка или нет, записывает ложь
+
 template<class T>
 void Array<T>::append()
 {
-    Node<T>* newNode = new Node<T>;
+    Node<T>* newNode = new Node<T>{ T() };
 
     if (tail == nullptr)
     {
@@ -18,6 +23,8 @@ void Array<T>::append()
         size++;
     }
 }
+
+// эта перегрузка принимает значение и создает заполненную ячейку с принятым значением
 
 template<class T>
 void Array<T>::append(T value)
@@ -38,6 +45,9 @@ void Array<T>::append(T value)
     }
 }
 
+// метод для обьединения списков. была идея просто к нексту у хвоста первого присвоить адрес головы второго, но в деструкторе была ошибка из-за того, что
+// они указывают на 1 обьект, поэтому оставила как есть
+
 template<class T>
 void Array<T>::Append(Array& obj)
 {
@@ -51,20 +61,24 @@ void Array<T>::Append(Array& obj)
     }
 }
 
+// возвращает атрибут с размером (сначала была версия подсчёта элеметов, но так как класс по факту называется строка, а в таких
+// классах обычно есть атрибут размера, сделала так
+
 template<class T>
 int Array<T>::GetSize()
 {
     return size;
 }
 
+// метод увеличения/уменьшения размера на число гроу с каждым шагом
+
 template<class T>
 void Array<T>::SetSize(int size_P, int grow)
 {
-    size = size_P;
 
-    if (size>GetSize())
+    if (size_P>size)
     {
-        int diff = size - GetSize();
+        int diff = size_P - GetSize();
 
         for (int i = 0; i < diff; i++) 
         {
@@ -76,7 +90,7 @@ void Array<T>::SetSize(int size_P, int grow)
     }
     else
     {
-        int diff = GetSize()-size;
+        int diff = GetSize()-size_P;
         int size_buff = 1;
         Node<T>* buff = head;
 
@@ -87,7 +101,11 @@ void Array<T>::SetSize(int size_P, int grow)
         }
         buff->next = nullptr;
     }
+
+    size = size_P;
 }
+
+// проверка на пустоту списка
 
 template<class T>
 bool Array<T>::IsEmpty()
@@ -95,11 +113,16 @@ bool Array<T>::IsEmpty()
     return head == nullptr;
 }
 
+// очищение списка
+
 template<class T>
 void Array<T>::RemoveAll()
 {
     head = tail = nullptr;
 }
+
+// возвращение значения по индексу (перегрузку оператора [] я сделала позже и т.к. была задача сделать метод, я не стала использовать оператор и оставила так)
+// при отсутствии запрашиваемого индекса возвращает стандартное значение для типа данных шаблона
 
 template<class T>
 const T Array<T>::GetAt(int index)
@@ -123,6 +146,8 @@ const T Array<T>::GetAt(int index)
     }
 }
 
+// вставка элемент на какой-либо индекс
+
 template<class T>
 void Array<T>::SetAt(int index, T elem)
 {
@@ -142,6 +167,8 @@ void Array<T>::SetAt(int index, T elem)
     }
 }
 
+// возвращение самого верхнего индекса (только ячейки, созданные как заполненные)
+
 template<class T>
 int Array<T>::GetUpperBound()
 {
@@ -157,6 +184,8 @@ int Array<T>::GetUpperBound()
     return buff_indx;
 }
 
+// удаление незаполненных ячеек
+
 template<class T>
 void Array<T>::FreeExtra()
 {
@@ -170,6 +199,8 @@ void Array<T>::FreeExtra()
 
     buff->next = nullptr; 
 }
+
+// перегрузка оператора
 
 template<class T>
 T Array<T>::operator[](int indx)
@@ -186,40 +217,46 @@ T Array<T>::operator[](int indx)
     return buff->data;
 }
 
+// возаращает неконстантную ссылку на начало списка
+
 template<class T>
 Node<T>& Array<T>::Get_data()
 {
     return head;
 }
 
+// записывает на место какого-т индекса (т.к. а списках действует принцип LIFO то и добавляется на нужный индекс с конца)
+
 template<class T>
 void Array<T>::InsertAt(int indx, T value)
 {
-    Node<T>* newnode = new Node<T>;
+    Node<T>* newnode = new Node<T>{ tail->data };
     tail->next = newnode;
     newnode->prev = tail;
     tail = newnode;
-    Node<T>* buff = head;
-    Node<T>* buff_indx = head;
+    Node<T>* buff = tail;
+    Node<T>* buff_indx;
     T buff_value;
+    size++;
 
     for (int i = 0; i < indx-1; i++)
     {
-        buff = buff->next;
+        buff = buff->prev;
     }
 
     buff_indx = buff;
+    buff = tail;
 
-    for (int i = indx; i < GetSize() && buff->next!=nullptr; i++)
+    while( buff!=buff_indx && buff->prev!=nullptr )
     {
-        buff_value = buff->next->data;
-        buff->next->data = buff->data;
-        buff = buff->next;
-        buff->data = buff_value;
+        buff->data = buff->prev->data;
+        buff = buff->prev;
     }
 
     buff_indx->data = value;
 }
+
+//удалить нужный индекс
 
 template<class T>
 void Array<T>::DeleteAt(int indx)
@@ -232,12 +269,18 @@ void Array<T>::DeleteAt(int indx)
         buff = buff->next;
     }
 
-    for (int i = indx; i < GetSize() && buff->next != nullptr; i++)
+    for (int i = indx; i < size && buff->next != nullptr; i++)
     {
         buff->data = buff->next->data;
         buff = buff->next;
     }
+
+    size--;
+    tail = tail->prev;
+    tail->next = nullptr;
 }
+
+//удалить последний эл.
 
 template<class T>
 void Array<T>::removeLast()
@@ -263,6 +306,8 @@ void Array<T>::removeLast()
     }
 }
 
+// вывод
+
 template<class T>
 void Array<T>::print() const
 {
@@ -275,6 +320,8 @@ void Array<T>::print() const
     }
     cout << endl;
 }
+
+// поиск массива и возвращение булевой переменной
 
 template<class T>
 bool Array<T>::search(T value) const
@@ -293,6 +340,8 @@ bool Array<T>::search(T value) const
 
     return false;
 }
+
+//деструктор
 
 template<class T>
 Array<T>::~Array()
